@@ -28,12 +28,13 @@ app.get("/imagen", async (req, res) => {
     try {
         const imagen = await Jimp.read(`${userImagen}`)
         const imgId = uuidv4().slice(0,6);
+        const rutaImagen = path.join(__dirname, "assets/img", `imagen_${imgId}.jpeg`);
         await imagen
             .resize(350, Jimp.AUTO)
             .greyscale()
-            .writeAsync(`imagen_${imgId}.jpeg`);
+            .writeAsync(rutaImagen);
 
-            const imagenData = fs.readFileSync(`imagen_${imgId}.jpeg`)
+            const imagenData = fs.readFileSync(rutaImagen)
             res.send(imagenData)
 
     } catch (err) {
